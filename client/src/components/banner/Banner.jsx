@@ -13,7 +13,7 @@ const Image = styled(Box)`
 
 const Heading = styled(Typography)`
     font-size: 70px;
-    color: #FFFFFF;
+    color: black;
     line-height: 1
 `;
 
@@ -26,8 +26,7 @@ const Banner = () => {
     
     return (
         <Image>
-            <Heading>BLOG</Heading>
-            <SubHeading>Code for Interview</SubHeading>
+            {/* <Heading>ForumHub</Heading> */}
         </Image>
     )
 }

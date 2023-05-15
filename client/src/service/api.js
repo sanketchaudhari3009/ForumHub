@@ -114,10 +114,10 @@ const ProcessError = async (error) => {
 const API = {};
 
 for (const [key, value] of Object.entries(SERVICE_URLS)) {
-    API[key] = (body, showUploadProgress, showDownloadProgress, params) =>
+    API[key] = (body, showUploadProgress, showDownloadProgress) =>
         axiosInstance({
             method: value.method,
-            url: value.url + (params ? "/" + params : ""),
+            url: value.url,
             data: value.method === 'DELETE' ? '' : body,
             responseType: value.responseType,
             headers: {

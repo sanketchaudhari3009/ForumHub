@@ -1,6 +1,5 @@
 import multer from 'multer';
 import { GridFsStorage } from 'multer-gridfs-storage';
-
 const username = process.env.DB_USERNAME
 const password = process.env.DB_PASSWORD
 const storage = new GridFsStorage({

@@ -13,7 +13,8 @@ const Component = styled(Box)`
 `;
 
 const Image = styled('img')({
-    width: 100,
+    width: 250,
+    height: 100,
     display: 'flex',
     margin: 'auto',
     padding: '50px 0 0'
@@ -80,7 +81,20 @@ const Login = ({ isUserAuthenticated }) => {
     const navigate = useNavigate();
     const { setAccount } = useContext(DataContext);
 
-    const imageURL = 'https://www.sesta.it/wp-content/uploads/2021/03/logo-blog-sesta-trasparente.png';
+    // const imageURL = 'https://www.sesta.it/wp-content/uploads/2021/03/logo-blog-sesta-trasparente.png';
+    const imageURL = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRBwYi9O-EFzYMuB58g2Bktx2t0n4pqOZeIwQTeSrFUrUFZiig89dLm76-jA2KW0kilCQ&usqp=CAU';
+
+    const validateUsername = (username) => {
+        // Regular expression pattern for username validation
+        const usernameRegex = /^[a-zA-Z0-9_]{3,20}$/;
+        return usernameRegex.test(username);
+      }
+    
+      const validatePassword = (password) => {
+        // Regular expression pattern for password validation
+        const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
+        return passwordRegex.test(password);
+      }
 
     useEffect(() => {
         showError(false);
@@ -95,8 +109,13 @@ const Login = ({ isUserAuthenticated }) => {
     }
 
     const loginUser = async () => {
-        let response = await API.userLogin(login);
-        if (response.isSuccess) {
+        if (!validateUsername(login.username) || !validatePassword(login.password)) {
+            showError('Invalid username or password');
+            return;
+          }
+      
+          let response = await API.userLogin(login);
+          if (response.isSuccess) {
             showError('');
 
             sessionStorage.setItem('accessToken', `Bearer ${response.data.accessToken}`);
@@ -106,21 +125,31 @@ const Login = ({ isUserAuthenticated }) => {
             isUserAuthenticated(true)
             setLogin(loginInitialValues);
             navigate('/');
-        } else {
-            showError('Something went wrong! please try again later');
-        }
+          } else {
+            showError('Something went wrong! Please try again later.');
+          }
     }
 
     const signupUser = async () => {
-        let response = await API.userSignup(signup);
-        if (response.isSuccess) {
+        if (!validateUsername(signup.username) || !validatePassword(signup.password)) {
+          showError('Invalid username or password');
+          return;
+        }
+      
+        try {
+          let response = await API.userSignup(signup);
+          if (response.isSuccess) {
             showError('');
             setSignup(signupInitialValues);
             toggleAccount('login');
-        } else {
-            showError('Something went wrong! please try again later');
+          } else {
+            showError('Something went wrong! Please try again later.');
+          }
+        } catch (error) {
+          showError('Something went wrong! Please try again later.');
         }
-    }
+      }
+    
 
     const toggleSignup = () => {
         account === 'signup' ? toggleAccount('login') : toggleAccount('signup');
@@ -134,7 +163,7 @@ const Login = ({ isUserAuthenticated }) => {
                     account === 'login' ?
                         <Wrapper>
                             <TextField variant="standard" value={login.username} onChange={(e) => onValueChange(e)} name='username' label='Enter Username' />
-                            <TextField variant="standard" value={login.password} onChange={(e) => onValueChange(e)} name='password' label='Enter Password' />
+                            <TextField variant="standard" value={login.password} onChange={(e) => onValueChange(e)} name='password' label='Enter Password' type='password' />
 
                             {error && <Error>{error}</Error>}
 
@@ -143,9 +172,9 @@ const Login = ({ isUserAuthenticated }) => {
                             <SignupButton onClick={() => toggleSignup()} style={{ marginBottom: 50 }}>Create an account</SignupButton>
                         </Wrapper> :
                         <Wrapper>
-                            <TextField variant="standard" onChange={(e) => onInputChange(e)} name='name' label='Enter Name' />
-                            <TextField variant="standard" onChange={(e) => onInputChange(e)} name='username' label='Enter Username' />
-                            <TextField variant="standard" onChange={(e) => onInputChange(e)} name='password' label='Enter Password' />
+                            <TextField variant="standard" onChange={(e) => onInputChange(e)} name='name' placeholder='Enter Name' />
+                            <TextField variant="standard" onChange={(e) => onInputChange(e)} name='username' placeholder='Enter Username' />
+                            <TextField variant="standard" onChange={(e) => onInputChange(e)} name='password' placeholder='Enter Password' type='password'    />
 
                             <SignupButton onClick={() => signupUser()} >Signup</SignupButton>
                             <Text style={{ textAlign: 'center' }}>OR</Text>

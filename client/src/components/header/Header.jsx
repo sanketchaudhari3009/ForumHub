@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 const Component = styled(AppBar)`
-    background: #FFFFFF;
+    background: #fff;
     color: black;
 `;
 
@@ -17,7 +17,21 @@ const Container = styled(Toolbar)`
         color: #000;
         text-decoration: none;
     }
-`
+`;
+
+// const StyledButton = styled(Button)`
+//   color: #blue ;    
+//   background-color: #fafafa;
+
+// `;
+
+const StyledButton = styled(Button)`
+    margin: 0px;
+    width: 85%;
+    background: #6495ed;
+    color: #fff;
+    text-decoration: none;
+`;
 
 const Header = () => {
 
@@ -28,10 +42,18 @@ const Header = () => {
     return (
         <Component>
             <Container>
-                <Link to='/'>HOME</Link>
-                <Link to='/about'>ABOUT</Link>
-                <Link to='/contact'>CONTACT</Link>
-                <Link to='/account'>LOGOUT</Link>
+            <Link to="/">
+            <StyledButton>HOME</StyledButton>
+            </Link>
+            <Link to="/about">
+            <StyledButton>ABOUT</StyledButton>
+            </Link>
+            <Link to="/contact">
+            <StyledButton>CONTACT</StyledButton>
+            </Link>
+            <Link to="/account">
+            <StyledButton onClick={() => logout()}>LOGOUT</StyledButton>
+            </Link>
             </Container>
         </Component>
     )

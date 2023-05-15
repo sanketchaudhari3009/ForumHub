@@ -8,7 +8,7 @@ const Container = styled(Box)`
     display: flex;
     align-items: center;
     flex-direction: column;
-    height: 350px;
+    height: 450px;
     & > img, & > p {
         padding: 0 5px 5px 5px;
     }
@@ -18,7 +18,7 @@ const Image = styled('img')({
     width: '100%',
     objectFit: 'cover',
     borderRadius: '10px 10px 0 0',
-    height: 150
+    height: 250
 });
 
 const Text = styled(Typography)`
